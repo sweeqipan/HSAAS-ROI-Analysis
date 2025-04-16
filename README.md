@@ -52,7 +52,7 @@ You need to download the application code from the GitHub repository.
 
 This step installs the Python libraries the tool needs to function. Using a virtual environment is recommended to keep dependencies separate for different projects.
 
-1.  **Open Command Prompt or PowerShell.**
+1.  **Open PowerShell.**
    
 2.  **Navigate to the Project Directory:** Use the `cd` command to go into the `image_roi_app` folder you created in Step 2.
     * `cd C:\Users\YourUsername\Desktop\image_roi_app`
