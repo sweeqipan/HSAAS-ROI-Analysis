@@ -19,7 +19,9 @@ You need Python installed to run the tool's backend server. Python also comes wi
 1.  **Check if Python is Installed:**
     * Open the **PowerShell**. You can find these by searching in the Windows Start menu.
     * Type the following command and press Enter:
+        ```bash
         python --version
+        ```
     * If you see a version number (e.g., `Python 3.11.4`), Python is installed. Note the version. If it's older than 3.8, consider upgrading.
     * If you get an error message like "'python' is not recognized..." or "'py' is not recognized...", Python is likely not installed or not added to your system's PATH.
 
