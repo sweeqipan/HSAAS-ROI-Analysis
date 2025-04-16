@@ -60,7 +60,9 @@ This step installs the Python libraries the tool needs to function. Using a virt
       
 3.  **Install Required Libraries:**
     * Run the following command:
-        python -m pip install Flask opencv-python numpy pandas xlsxwriter nibabel waitress
+        ```bash
+        ppython -m pip install Flask opencv-python numpy pandas xlsxwriter nibabel waitress
+        ```
     * This command uses `pip` (Python's package installer) to download and install all the necessary libraries specified in the code (`Flask` for the web server, `opencv-python` for image processing, `numpy` for numerical operations, `pandas` and `xlsxwriter` for Excel export, `nibabel` for NIfTI files, and `waitress` for a more robust server option). Wait for the installation to complete. You might see progress bars or status messages.
 
 ## Step 4: Run the Application
