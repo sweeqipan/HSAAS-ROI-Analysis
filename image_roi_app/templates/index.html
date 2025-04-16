@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Analyzer - Caution: For Investigational Use Only</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Customized ROI Analysis Tool for HSAAS</h1>
+    <div class="main-container">
+        <div class="left-panel">
+            <div class="display-section">
+                <h2>Image Display</h2>
+                <div id="slice-control" class="slice-control" style="display: none;">
+                    <label for="slice-slider">Slice:</label>
+                    <input type="range" id="slice-slider" min="0" max="1" value="0" disabled>
+                    <span id="slice-info">Slice 0 / 0</span>
+                </div>
+                <p>Upload image. Use slider/wheel for slices (NIfTI). Enable controls below.</p>
+                <div id="image-container">
+                     <canvas id="image-canvas">Canvas not supported.</canvas>
+                </div>
+                 <p id="image-info">No image loaded.</p>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="control-section upload-section">
+                <h2>1. Upload Image</h2>
+                <form id="upload-form" enctype="multipart/form-data">
+                    <input type="file" id="file-input" name="file" accept=".png,.jpg,.jpeg,.bmp,.tif,.tiff,.nii,.nii.gz" required>
+                    <button type="submit">Upload</button>
+                </form>
+                <p id="upload-status"></p>
+            </div>
+
+            <div class="control-section roi-section">
+                <h2>2. ROI Controls</h2>
+                 <div class="roi-controls-grid">
+                    <div> <label for="roi-toggle">Enable ROI Box:</label> <input type="checkbox" id="roi-toggle" disabled> </div>
+                    <div> <label for="roi-size-slider">ROI Size (Side): <span id="roi-size-px">100 px</span></label> <input type="range" id="roi-size-slider" min="10" max="500" value="100" disabled> <div id="roi-physical-size" style="display: none;"><p>Side (mm): <span id="roi-size-mm">N/A</span></p><p>Area (mm²): <span id="roi-area-mm2">N/A</span></p></div> </div>
+                    <div> <p>ROI Top-Left (px):<br> X: <span id="roi-x">N/A</span>, Y: <span id="roi-y">N/A</span></p> </div>
+                    <div> <label>Grid Division:</label> <div class="radio-group"> <span><input type="radio" id="grid1" name="grid" value="1" checked disabled> <label for="grid1">1x1</label></span> <span><input type="radio" id="grid2" name="grid" value="2" disabled> <label for="grid2">2x2</label></span> <span><input type="radio" id="grid3" name="grid" value="3" disabled> <label for="grid3">3x3</label></span> <span><input type="radio" id="grid4" name="grid" value="4" disabled> <label for="grid4">4x4</label></span> <span><input type="radio" id="grid5" name="grid" value="5" disabled> <label for="grid5">5x5</label></span> </div> </div>
+                 </div>
+                 <div class="roi-buttons"> <button id="center-roi-button" disabled title="Center ROI on lowest intensity pixel">Center on Min</button> <button id="recalculate-button" disabled>Recalculate Means</button> </div>
+                 <div id="error-message" class="error"></div>
+            </div>
+
+            <div class="control-section results-section">
+                <h2><span class="section-number">3</span>. ROI Results</h2>
+                <div id="results-display">
+                    <p><strong>Main ROI Mean:</strong> <span id="main-mean">N/A</span></p>
+                    <p><strong>Sub-ROI Means (Grid):</strong></p>
+                    <div id="sub-means-grid">N/A</div>
+                </div>
+            </div>
+
+            <div class="control-section export-section">
+                 <h2><span class="section-number">4</span>. Export ROI Results</h2>
+                <button id="download-button" disabled>Download Mean Values (Excel)</button>
+                <p id="download-status"></p>
+            </div>
+
+             <div id="threshold-section" class="control-section threshold-section" style="display: none;">
+                 <h2><span class="section-number">5</span>. Thresholding & Colormap (NIfTI Only)</h2>
+                 <div class="enable-control">
+                    <label for="enable-thresholding">Enable Thresholding:</label>
+                    <input type="checkbox" id="enable-thresholding" disabled> </div>
+                 <div id="threshold-controls-content" style="display: none;">
+                     <p id="image-range-info">Slice Range: Min=<span id="img-min">N/A</span> Max=<span id="img-max">N/A</span></p>
+                     <div id="threshold-list">
+                         </div>
+                     <button id="add-threshold-button" type="button" class="small-button" title="Add new threshold level">+</button>
+                     <p class="help-text">(Values below first threshold are black. Thresholds apply as: Value >= Threshold)</p>
+                     <div class="threshold-export-buttons">
+                         <button id="export-colormap-button" type="button" disabled>Export Color Map (PNG)</button>
+                         </div>
+                     <p id="threshold-status" class="status"></p>
+                 </div> <div id="threshold-error-message" class="error"></div> </div>
+
+        </div> </div> <template id="threshold-row-template">
+        <div class="threshold-row">
+            <label>Threshold ≥ <input type="number" step="any" class="threshold-value" value="0"></label>
+            <label>Color: <input type="color" class="threshold-color" value="#ffffff"></label>
+            <button type="button" class="remove-threshold-button small-button" title="Remove threshold">-</button>
+        </div>
+    </template>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
